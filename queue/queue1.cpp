@@ -2,6 +2,8 @@
 #include <memory>
 #include <limits>
 
+using std::cout;
+using std::endl;
 
 template <typename T>
 class Queue {
@@ -25,60 +27,43 @@ public:
         return queue_size == 0;
     }
 
-    T top() const {
-        if (empty()) {
-            throw std::out_of_range("Queue is empty");
-        }
+    T front() const {
         return array[ifront];
     }
 
-    T bottom() const {
-        if (empty()) {
-            throw std::out_of_range("Queue is empty");
-        }
+    T back() const {
         return array[iback];
     }
 
     void push(const T& item) {
-        if (queue_size >= array_capacity) {
-            throw std::out_of_range("Queue is full");
-        }
         iback = (iback + 1) % array_capacity;
         array[iback] = item;
         queue_size++;
     }
 
-    T pop() {
-        if (empty()) {
-            throw std::out_of_range("Queue is empty");
-        }
-        T frontItem = array[ifront];
+    void pop() {
         ifront = (ifront + 1) % array_capacity;
         queue_size--;
-        return frontItem;
     }
 
-    int size() {
+    int size() const {
         return queue_size;
     }
 
-    void showAll() {
-        for (size_t i = ifront; i <= queue_size; i++)
-            std::cout << array[i] << ' ';
-        std::cout << std::endl;
+    void showall() const {
+        size_t current = ifront;
+        do {
+            cout << array[current] << ' ';
+            current = (current + 1) % array_capacity;
+        } while (current != (iback + 1) % array_capacity);
+
+        cout << '\n';
     }
 };
 
-struct Node {
-    int data;
-    Node* next;
-};
-
 int main() {
-    std::shared_ptr<Queue<int>> myQueue = std::make_shared<Queue<int>>(100);
+    std::shared_ptr<Queue<int>> myQueue = std::make_shared<Queue<int>>(5);
     char input;
-
-
 
     while(true) {
         std::cin >> input;
@@ -99,25 +84,27 @@ int main() {
 
         else if (input == 'd') {
             if (!myQueue->empty()) {
-                std::cout << myQueue->top() << std::endl;
+                cout << myQueue->front() << '\n';
                 myQueue->pop();
             }
         } 
 
         else if (input == 's') {
             if (!myQueue->empty()) {
-                std::cout << myQueue->top() << ' ' << myQueue->bottom() << std::endl;
+                cout << myQueue->front() << ' ' << myQueue->back() << '\n';
             }
         } 
 
         else if (input == 'p') {
-            myQueue->showAll();
+            myQueue->showall();
         } 
         
         else if (input == 'n') {
-            std::cout << myQueue->size() << std::endl;
+            cout << myQueue->size() << '\n';
         } 
     }
+
+    cout << endl;
 
     return 0;
 }
