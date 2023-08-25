@@ -30,12 +30,7 @@ public:
             tail = newNode;
         }
         else {
-            Node* current = head;
-            while(current->next) {
-                current = current->next;
-            }
-
-            current->next = newNode;
+            tail->next = newNode;
             newNode->prev = tail;
             tail = newNode;
         }
@@ -80,7 +75,6 @@ public:
         if (current != nullptr) {
             current->prev = newNode;
         } else {
-            delete tail;
             tail = newNode;
         }
 
@@ -114,7 +108,6 @@ public:
         if (current->next != nullptr) {
             current->next->prev = newNode;
         } else {
-            delete tail;
             tail = newNode;
         }
             newNode->next = current->next;
@@ -153,6 +146,7 @@ public:
         delete temp;
         temp = nullptr;
     }
+
     void deleteEnd() {
         Node* temp = tail;
         tail = tail->prev;
@@ -160,6 +154,7 @@ public:
         delete temp;
         temp = nullptr;
     }
+
     void print() const {
         Node* current = head;
         while (current) {
@@ -178,8 +173,8 @@ int main() {
     list.insertEnd(1);
     list.insertEnd(2);
     list.insertEnd(10);
-    list.deleteEnd();
-    list.deleteFront();
+    list.insertAfterIndex(1,10);
+
     list.print();
 
     return 0;
