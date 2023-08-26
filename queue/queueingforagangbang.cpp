@@ -63,11 +63,11 @@ public:
     }
 
     void printReverse() const {
-        int current = front;    
+        int current = back;
         do {
             cout << array[current] << " ";
-            current = (current + 1) % MAX_SIZE;
-        } while (current != (back + 1) % MAX_SIZE);
+            current = (current - 1 + MAX_SIZE) % MAX_SIZE;
+        } while (current != (front - 1 + MAX_SIZE) % MAX_SIZE);
         cout << endl;
     }
 };
@@ -81,5 +81,6 @@ int main() {
     q1.pop();
     q1.push(666);
     q1.print();
+    q1.printReverse();
 
 }
